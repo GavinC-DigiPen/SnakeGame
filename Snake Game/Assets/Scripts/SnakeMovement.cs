@@ -24,9 +24,10 @@ public class SnakeMovement : MonoBehaviour
     public float minSpeed = 0.5f;
     public float maxSpeed = 2;
 
-    public float maxRotation = 1;
+    public float maxRotationSlow = 0.4f;
+    public float maxRotationFast = 0.6f;
     public float rotationAcceleration = 0.1f;
-    public float currentRotationAmount = 0;
+    private float currentRotationAmount = 0;
 
 
     Rigidbody2D snakeHeadRB;
@@ -66,34 +67,54 @@ public class SnakeMovement : MonoBehaviour
         if (Input.GetKey(forwardKey))
         {
             snakeHeadRB.velocity = transform.up * maxSpeed;
+
+            if (dirrection == -1)
+            {
+                currentRotationAmount -= rotationAcceleration;
+                if (currentRotationAmount < -maxRotationFast)
+                {
+                    currentRotationAmount = -maxRotationFast;
+                }
+            }
+            else if (dirrection == 1)
+            {
+                currentRotationAmount += rotationAcceleration;
+                if (currentRotationAmount > maxRotationFast)
+                {
+                    currentRotationAmount = maxRotationFast;
+                }
+            }
+            else
+            {
+                currentRotationAmount = Mathf.Lerp(currentRotationAmount, 0, rotationAcceleration);
+            }
         }
         else
         {
             snakeHeadRB.velocity = transform.up * minSpeed;
-        }
 
-
-        // Rotation
-        if (dirrection == -1)
-        {
-            currentRotationAmount -= rotationAcceleration;
-            if (currentRotationAmount < -maxRotation)
+            if (dirrection == -1)
             {
-                currentRotationAmount = -maxRotation;
+                currentRotationAmount -= rotationAcceleration;
+                if (currentRotationAmount < -maxRotationSlow)
+                {
+                    currentRotationAmount = -maxRotationSlow;
+                }
             }
-        }
-        else if (dirrection == 1)
-        {
-            currentRotationAmount += rotationAcceleration;
-            if (currentRotationAmount > maxRotation)
+            else if (dirrection == 1)
             {
-                currentRotationAmount = maxRotation;
+                currentRotationAmount += rotationAcceleration;
+                if (currentRotationAmount > maxRotationSlow)
+                {
+                    currentRotationAmount = maxRotationSlow;
+                }
             }
-        }
-        else
-        {
-            currentRotationAmount = 0;
-        }
+            else
+            {
+                currentRotationAmount = Mathf.Lerp(currentRotationAmount, 0, rotationAcceleration);
+                
+            }
+        }       
 
         snakeHeadRB.transform.Rotate(0, 0, -currentRotationAmount, Space.Self);
     }
