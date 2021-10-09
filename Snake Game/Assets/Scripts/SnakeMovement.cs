@@ -21,11 +21,16 @@ public class SnakeMovement : MonoBehaviour
 
     private int dirrection = 0;
 
+    [Tooltip("The minimum speed the snake will move")]
     public float minSpeed = 0.5f;
+    [Tooltip("The maximum speed the snake will move")]
     public float maxSpeed = 2;
 
-    public float maxRotationSlow = 0.4f;
+    [Tooltip("The minimum speed the snake will rotate when slow")]
     public float maxRotationFast = 0.6f;
+    [Tooltip("The maximum speed the snake will rotate when fast")]
+    public float maxRotationSlow = 0.4f;
+    [Tooltip("The speed at which the rotation will per second will change")]
     public float rotationAcceleration = 0.1f;
     private float currentRotationAmount = 0;
 
@@ -39,7 +44,7 @@ public class SnakeMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // Get dirrection
         if (Input.GetKeyDown(leftKey))
