@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         set
         {
             maxSnakeHealth = value;
+            OnHealthChange.Invoke();
         }
     }
 
